@@ -1,0 +1,36 @@
+###### MANAGED BY PUPPET ######
+
+PidFile /var/run/opendkim/opendkim.pid
+<% if @tempdir -%>
+TemporaryDirectory <%= @tempdir %>
+<% end -%>
+<% if @mode -%>
+Mode <%= @mode %>
+<% end -%>
+<% if @syslog -%>
+Syslog  yes
+<% if @syslog_success -%>
+SyslogSuccess <%= @syslog_success %>
+<% end -%>
+<% if @log_why -%>
+LogWhy  <%= @log_why %>
+<% end -%>
+<% end -%>
+UserID  opendkim:opendkim
+Socket  inet:8891@localhost
+Umask   002
+<% if @send_reports -%>
+SendReports <%= @send_reports %>
+<% end -%>
+SoftwareHeader  yes
+
+Canonicalization        relaxed/relaxed
+Selector        default
+MinimumKeyBits  1024
+
+KeyTable            refile:<%= @keytable %>
+SigningTable        refile:<%= @signing_table %>
+ExternalIgnoreList  refile:<%= @trusted_hosts %>
+InternalHosts       refile:<%= @trusted_hosts %>
+
+OversignHeaders From
