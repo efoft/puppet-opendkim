@@ -4,7 +4,7 @@
 #
 define opendkim::domain (
   $domain        = $name,
-  $selector      = 'mail',
+  $selector      = 'email',
   ) {
     # $pathconf and $pathkeys must be without trailing '/'.
     # For example, '/etc/opendkim/keys'
