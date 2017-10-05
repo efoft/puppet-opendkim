@@ -14,7 +14,7 @@ class opendkim::service {
 
     service { $opendkim::service_name:
       ensure     => $opendkim::service_ensure,
-      enable     => $_service_ensure,
+      enable     => $_service_enable,
       hasstatus  => true,
       hasrestart => true,
     }
