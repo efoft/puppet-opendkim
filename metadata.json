@@ -1,0 +1,33 @@
+{
+        "name": "efoft-opendkim",
+        "version": "1.0.0",
+        "author": "efoft",
+        "license": "Apache-2.0",
+        "source": "https://github.com/efoft/puppet-opendkim.git",
+        "dependencies": [
+                { "name": "puppetlabs/stdlib", "version_requirement":">=4.17.1 < 5.0.0" }
+        ],
+        "operatingsystem_support": [
+                {
+                  "operatingsystem": "RedHat",
+                  "operatingsystemrelease": [
+                    "6",
+                    "7"
+                  ]
+                },
+                {
+                  "operatingsystem": "CentOS",
+                  "operatingsystemrelease": [
+                    "6",
+                    "7"
+                  ]
+                }
+        ],
+        "requirements": [
+          {
+            "name": "puppet",
+            "version_requirement": ">= 4.5.0 < 5.0.0"
+          }
+        ],
+        "description": "OpenDKIM service for CentOS, RHEL."
+}
