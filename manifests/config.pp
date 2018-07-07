@@ -35,5 +35,7 @@ class opendkim::config inherits opendkim {
     force        => true,
   }
 
-  file { '/var/run/opendkim': }
+  file { '/var/run/opendkim':
+    mode => '0770',
+  }
 }
