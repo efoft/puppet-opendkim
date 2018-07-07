@@ -2,10 +2,10 @@
 #
 # This class is called from opendkim
 #
-class opendkim::config {
+class opendkim::config inherits opendkim {
 
   file { '/etc/opendkim.conf':
-    ensure  => $opendkim::install::ensure ? { 'present' => 'file', default => 'absent' },
+    ensure  => $ensure,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
@@ -24,14 +24,16 @@ class opendkim::config {
   # there on SELinix-enabled systems.
 
   File {
-    ensure       => $opendkim::install::ensure ? { 'present' => 'directory', default => 'absent' },
-    owner        => $opendkim::owner,
-    group        => $opendkim::group,
+    ensure       => $ensure ? { 'present' => 'directory', default => 'absent' },
+    owner        => $owner,
+    group        => $group,
+  }
+
+  file { $pathconf:
     recurse      => true,
     recurselimit => 1,
     force        => true,
   }
 
-  file { "${opendkim::pathconf}": }
   file { '/var/run/opendkim': }
 }

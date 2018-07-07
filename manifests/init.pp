@@ -45,29 +45,23 @@
 #   ExternalIgnoreList directives.
 #
 class opendkim(
-  $package_name   = $opendkim::params::package_name,
-  $package_ensure = $opendkim::params::package_ensure,
+  Enum['present','absent'] $ensure = 'present',
+  Stdlib::Unixpath $tempdir        = $opendkim::params::tempdir,
+  Enum['s','v','sv'] $mode         = $opendkim::params::mode,
 
-  $service_name   = $opendkim::params::service_name,
-  $service_ensure = $opendkim::params::service_ensure,
+  Enum['Yes','No'] $syslog         = $opendkim::params::syslog,
+  Enum['Yes','No'] $syslog_success = $opendkim::params::syslog_success,
+  Enum['Yes','No'] $log_why        = $opendkim::params::log_why,
+  Enum['Yes','No'] $send_reports   = $opendkim::params::send_reports,
 
-  $tempdir        = $opendkim::params::tempdir,
-  $mode           = $opendkim::params::mode,
+  Stdlib::Unixpath $pathconf       = $opendkim::params::pathconf,
+  Stdlib::Unixpath $keytable       = $opendkim::params::keytable,
+  Stdlib::Unixpath $signing_table  = $opendkim::params::signing_table,
+  Stdlib::Unixpath $trusted_hosts  = $opendkim::params::trusted_hosts,
 
-  $syslog         = $opendkim::params::syslog,
-  $syslog_success = $opendkim::params::syslog_success,
-  $log_why        = $opendkim::params::log_why,
-
-  $send_reports   = $opendkim::params::send_reports,
-
-  $pathconf       = $opendkim::params::pathconf,
-  $keytable       = $opendkim::params::keytable,
-  $signing_table  = $opendkim::params::signing_table,
-  $trusted_hosts  = $opendkim::params::trusted_hosts,
-
-  $owner          = $opendkim::params::owner,
-  $group          = $opendkim::params::group,
-  $domains        = []
+  String[1] $owner                 = $opendkim::params::owner,
+  String[1] $group                 = $opendkim::params::group,
+  Array[String] $domains           = []
   ) inherits opendkim::params {
 
   class { 'opendkim::install': } ->
@@ -75,7 +69,7 @@ class opendkim(
   class { 'opendkim::config' : } ~>
   class { 'opendkim::service': }
 
-  if $domains and ( $package_ensure == 'present' or $package_ensure == true ) {
+  if $domains and $ensure == 'present' {
     opendkim::domain { $domains: }
   }
 }

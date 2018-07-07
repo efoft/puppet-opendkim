@@ -1,15 +1,12 @@
 # == Class dkim::install
 #
 # Private class. Do not call directly.
-class opendkim::install {
-  $package_name   = $opendkim::package_name
-  $package_ensure = $opendkim::package_ensure
+class opendkim::install inherits opendkim {
 
-  $ensure = $package_ensure ? {
-    false    => 'absent',
-    true     => 'present',
-    default  => $package_ensure
+  $package_ensure = $ensure ? {
+    'absent' => 'purged',
+    default  => $ensure
   }
 
-  ensure_packages($opendkim::package_name, {'ensure' => $ensure})
+  ensure_packages( $package_name, { 'ensure' => $package_ensure } )
 }

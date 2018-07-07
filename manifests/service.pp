@@ -1,22 +1,11 @@
 # == Class opendkim::service
 #
-# This class is meant to be called from module
-# It ensure the service is running
-#
-class opendkim::service {
+class opendkim::service inherits opendkim {
 
-  if $opendkim::install::ensure == 'present' {
-    $_service_enable = $opendkim::service_ensure ? {
-      'running'  => true,
-      'stopped'  => false,
-      default    => $opendkim::service_ensure # false, true
-    }
-
-    service { $opendkim::service_name:
-      ensure     => $opendkim::service_ensure,
-      enable     => $_service_enable,
-      hasstatus  => true,
-      hasrestart => true,
-    }
+  service { $service_name:
+    ensure     => $ensure ? { 'present' => 'running', default => undef },
+    enable     => $ensure ? { 'present' => true, default      => undef },
+    hasstatus  => true,
+    hasrestart => true,
   }
 }
